@@ -1,5 +1,6 @@
 package com.trybe.acc.java.controledeacesso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,8 +24,11 @@ public class Principal {
       System.out.println("1 - Acessar o estabelecimento");
       System.out.println("2 - Finalizar sistema e mostar relatório");
 
-      short option = parseShort(scan.next());
-      if (option == 0) {
+
+      short option = 0;
+      try {
+        option = Short.parseShort(scan.next());
+      } catch (Exception e) {
         System.out.println("Entre com uma opção válida!");
         continue;
       }
@@ -33,7 +37,13 @@ public class Principal {
 
         System.out.println("Entre com a sua idade:");
 
-        short age = parseShort(scan.next());
+        short age = 0;
+        try {
+          age = Short.parseShort(scan.next());
+        } catch (Exception e) {
+          System.out.println("Entre com uma opção válida!");
+          continue;
+        }
 
         if (age < 18) {
           menores.add(age);
@@ -47,11 +57,18 @@ public class Principal {
         }
 
       } else if (option == 2) {
-
         loop = false;
+        int menoresTotal = menores.size();
+        int adultosTotal = adultos.size();
+        int adultos50Total = adultos50.size();
+        int total = menoresTotal + adultosTotal + adultos50Total;
 
-      } else {
-        System.out.println("Entre com uma opção válida!");
+        if (total == 0) {
+          System.out.println("Entre com uma opção válida!");
+          continue;
+        }
+
+        loadRelatorio(menoresTotal, adultosTotal, adultos50Total, total);
       }
 
     } while (loop);
@@ -59,14 +76,35 @@ public class Principal {
     scan.close();
   }
 
+
   /**
-   * Method parseShort.
+   * Method LoadRelatorio.
    */
-  public static short parseShort(String input) {
-    try {
-      return Short.parseShort(input);
-    } catch (Exception e) {
-      return 0;
-    }
+  public static void loadRelatorio(int menores, int adultosTotal, int adultos50, int total) {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("----- Quantidade -----").append("\n");
+    sb.append("menores: ").append(menores).append("\n");
+    sb.append("adultas: ").append(adultosTotal).append("\n");
+    sb.append("a partir de 50: ").append(adultos50).append("\n\n");
+    sb.append("----- Percentual -----").append("\n");
+    sb.append("menores: ").append(percentage(menores, total)).append("%").append("\n");
+    sb.append("adultas: ").append(percentage(adultosTotal, total)).append("%").append("\n");
+    sb.append("a partir de 50: ").append(percentage(adultos50, total)).append("%").append("\n\n");
+    sb.append("TOTAL: ").append(total);
+
+
+    System.out.println(sb.toString());
   }
+
+  /**
+   * Method percentage.
+   */
+  public static String percentage(double value, double total) {
+    DecimalFormat df = new DecimalFormat();
+    df.applyPattern("0.00");
+
+    return df.format((value * 100) / total);
+  }
+
 }
