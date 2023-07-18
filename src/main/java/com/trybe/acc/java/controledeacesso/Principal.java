@@ -25,7 +25,7 @@ public class Principal {
       System.out.println("2 - Finalizar sistema e mostar relatório");
 
 
-      short option = 0;
+      short option;
       try {
         option = Short.parseShort(scan.next());
       } catch (Exception e) {
@@ -37,7 +37,7 @@ public class Principal {
 
         System.out.println("Entre com a sua idade:");
 
-        short age = 0;
+        short age;
         try {
           age = Short.parseShort(scan.next());
         } catch (Exception e) {
@@ -48,7 +48,7 @@ public class Principal {
         if (age < 18) {
           menores.add(age);
           System.out.println("Pessoa cliente menor de idade, catraca liberada!");
-        } else if (age >= 18 && age < 50) {
+        } else if (age < 50) {
           adultos.add(age);
           System.out.println("Pessoa adulta, catraca liberada!");
         } else {
@@ -81,20 +81,19 @@ public class Principal {
    * Method LoadRelatorio.
    */
   public static void loadRelatorio(int menores, int adultosTotal, int adultos50, int total) {
-    StringBuilder sb = new StringBuilder();
 
-    sb.append("----- Quantidade -----").append("\n");
-    sb.append("menores: ").append(menores).append("\n");
-    sb.append("adultas: ").append(adultosTotal).append("\n");
-    sb.append("a partir de 50: ").append(adultos50).append("\n\n");
-    sb.append("----- Percentual -----").append("\n");
-    sb.append("menores: ").append(percentage(menores, total)).append("%").append("\n");
-    sb.append("adultas: ").append(percentage(adultosTotal, total)).append("%").append("\n");
-    sb.append("a partir de 50: ").append(percentage(adultos50, total)).append("%").append("\n\n");
-    sb.append("TOTAL: ").append(total);
+    String sb = "----- Quantidade -----" + "\n"
+            + "menores: " + menores + "\n"
+            + "adultas: " + adultosTotal + "\n"
+            + "a partir de 50: " + adultos50 + "\n\n"
+            + "----- Percentual -----" + "\n"
+            + "menores: " + percentage(menores, total) + "%" + "\n"
+            + "adultas: " + percentage(adultosTotal, total) + "%" + "\n"
+            + "a partir de 50: " + percentage(adultos50, total) + "%" + "\n\n"
+            + "TOTAL: " + total;
 
 
-    System.out.println(sb.toString());
+    System.out.println(sb);
   }
 
   /**
